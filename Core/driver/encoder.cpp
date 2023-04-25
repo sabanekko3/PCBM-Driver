@@ -7,8 +7,9 @@
 
 #include "encoder.hpp"
 
+//AS5600//////////////////////////////////////////////////////////////////////////////
 void AS5600::reset_position(void){
-	i2c_start();
+	read_start();
 	uint16_t enc = 0;
 	HAL_Delay(100);
 	while(!get_angle(&enc));
@@ -23,22 +24,62 @@ void AS5600::init(void){
 }
 
 
-void AS5600::i2c_start(void){
-	i2c_new = false;
+void AS5600::read_start(void){
+	data_new = false;
 	memset(enc_val,0,2);
 #ifdef I2C_DMA
 	 HAL_I2C_Master_Receive_DMA(i2c, as5600_id<<1, enc_val, 2);
 #else
 	 HAL_I2C_Master_Receive(i2c, as5600_id<<1, enc_val, 2, 100);
-	 i2c_new = true;
+	 data_new = true;
 #endif
 }
 
 bool AS5600::get_angle(uint16_t *angle){
 	*angle = (enc_val[0]<<8)|enc_val[1];
 	*angle = (*angle-enc_init_val)&0xFFF;
-	if(i2c_new){
-		i2c_new = false;
+	if(data_new){
+		data_new = false;
+		return true;
+	}else{
+		return false;
+	}
+}
+
+//AS5048//////////////////////////////////////////////////////////////////////////////
+void AS5048::reset_position(void){
+	read_start();
+	uint16_t enc = 0;
+	HAL_Delay(100);
+	while(!get_angle(&enc));
+	enc_init_val = enc;
+}
+
+void AS5048::init(void){
+	reset_position();
+}
+
+
+void AS5048::read_start(void){
+	data_new = false;
+	uint8_t tx[2]={0xFF,0xFF};
+	memset(enc_val,0,2);
+#ifdef SPI_DMA
+	HAL_GPIO_WritePin(ss_port, ss_pin, GPIO_PIN_RESET);
+	 HAL_SPI_TransmitReceive_DMA(spi, tx, enc_val,2);
+#else
+	 HAL_GPIO_WritePin(ss_port, ss_pin, GPIO_PIN_RESET);
+	 HAL_SPI_TransmitReceive(spi, tx, enc_val,2,100);
+	 HAL_GPIO_WritePin(ss_port, ss_pin, GPIO_PIN_SET);
+	 data_new = true;
+#endif
+}
+
+bool AS5048::get_angle(uint16_t *angle){
+	*angle = (enc_val[0]<<8)|enc_val[1];
+	*angle = (*angle-enc_init_val)&0xFFF;
+	if(data_new){
+		data_new = false;
 		return true;
 	}else{
 		return false;

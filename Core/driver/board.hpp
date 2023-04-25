@@ -16,11 +16,11 @@
 #include "encoder.hpp"
 #include "pid.hpp"
 
-class BOARD{
+template <class T> class BOARD{
 private:
 	DRIVER &driver;
 	motor_math &math;
-	AS5600 &enc;
+	T &enc;
 
 	uint16_t angle_e_real;
 	uint16_t angle_e_pwm;
@@ -32,12 +32,15 @@ private:
 	uint16_t servo;
 
 public:
-	BOARD(DRIVER &_driver,ADC &_adc,motor_math &_math,AS5600 &_enc)
+	BOARD(DRIVER &_driver,ADC &_adc,motor_math &_math,T &_enc)
 		:driver(_driver),adc(_adc),math(_math),enc(_enc){}
 	void init(void);
 	void loop(void);
 	void inthandle(void);
 };
+
+template class BOARD<AS5600>;
+template class BOARD<AS5048>;
 
 
 

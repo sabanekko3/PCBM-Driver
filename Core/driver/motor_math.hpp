@@ -10,24 +10,23 @@
 
 #include "board_data.hpp"
 
-
-
-class sincos_table{
+class sin_table{
 private:
-	sincos_t table[TABLE_SIZE];
+	float table[TABLE_SIZE];
 public:
-	sincos_table(void);
-	sincos_t *get(uint16_t degree);
-
+	sin_table(void);
+	float *get(uint16_t angle){
+		return &(table[angle & 0x3FF]);
+	}
 };
 
 
 class motor_math{
 private:
-	sincos_table &table;
+	sin_table &table;
 	float sqrt3 = sqrt(3.0);
 public:
-	motor_math(sincos_table &_table):table(_table){}
+	motor_math(sin_table &_table):table(_table){}
 	void dq_from_uvw(uvw_t input,uint16_t deg_e,dq_t *out);
 	void uvw_from_dq(dq_t input,uint16_t deg_e,uvw_t *out);
 };

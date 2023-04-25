@@ -7,7 +7,7 @@
 
 #include "board.hpp"
 
-void BOARD::init(void){
+template <class T> void BOARD<T>::init(void){
 	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
 	driver.pwms_start();
 	driver.out(0, 0.0);
@@ -25,7 +25,7 @@ void BOARD::init(void){
 	driver.out(0, 0);
 }
 
-void BOARD::loop(void){
+template <class T> void BOARD<T>::loop(void){
 #ifndef TIM3_INT
 	adc.dma_stop();
 	inthandle();
@@ -41,7 +41,7 @@ void BOARD::loop(void){
 	HAL_Delay(1);
 }
 
-void BOARD::inthandle(void){
+template <class T> void BOARD<T>::inthandle(void){
 	adc.dma_stop();
 
 	adc.get_i_uvw(&phase_i);
@@ -65,6 +65,6 @@ void BOARD::inthandle(void){
 	}
 
 
-	enc.i2c_start();
+	enc.read_start();
 	adc.dma_set();
 }

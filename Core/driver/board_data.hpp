@@ -42,9 +42,10 @@ enum class PHASE{
 	W
 };
 
-#define TABLE_SIZE 256
-#define V_PHASE 85
-#define W_PHASE 171
+#define TABLE_SIZE 1024
+#define COSP 256
+#define V_PHASE 341
+#define W_PHASE 683
 
 typedef struct dq{
 	float d;
