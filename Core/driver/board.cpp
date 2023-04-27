@@ -7,7 +7,7 @@
 
 #include "board.hpp"
 
-template <class T> void BOARD<T>::init(void){
+void BOARD::init(void){
 	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
 	driver.pwms_start();
 	driver.out(0, 0.0);
@@ -25,7 +25,7 @@ template <class T> void BOARD<T>::init(void){
 	driver.out(0, 0);
 }
 
-template <class T> void BOARD<T>::loop(void){
+void BOARD::loop(void){
 #ifndef TIM3_INT
 	adc.dma_stop();
 	inthandle();
@@ -41,14 +41,14 @@ template <class T> void BOARD<T>::loop(void){
 	HAL_Delay(1);
 }
 
-template <class T> void BOARD<T>::inthandle(void){
+void BOARD::inthandle(void){
 	adc.dma_stop();
 
 	adc.get_i_uvw(&phase_i);
 	enc.get_angle(&angle_e_real);
 	servo = adc.get_servo();
 
-	math.dq_from_uvw(phase_i, (uint8_t)angle_e_real,&dq_val);
+	math.dq_from_uvw(phase_i, angle_e_real,&dq_val);
 
 	if(servo < 10){
 		driver.out(angle_e_pwm,0.0);

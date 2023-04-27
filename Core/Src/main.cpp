@@ -82,9 +82,14 @@ PWM V(&htim1, TIM_CHANNEL_2, 1000);
 PWM W(&htim1, TIM_CHANNEL_1, 1000);
 DRIVER driver(U, V, W, table);
 ADC adc(&hadc1,&hadc2,0.025,1);
-//AS5600 enc(&hi2c1);
-AS5048 enc(&hspi1,SS_GPIO_Port,SS_Pin);
-BOARD<AS5048> board(driver,adc,mathlib,enc);
+
+#ifdef ENC_AS5600
+	//AS5600 enc(&hi2c1);
+#else
+	AS5048 enc(&hspi1,SS_GPIO_Port,SS_Pin);
+#endif
+
+BOARD board(driver,adc,mathlib,enc);
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if(htim == &htim3){
@@ -93,13 +98,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 #endif
 	}
 }
+#ifdef ENC_AS5600
 void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *hi2c){
 	enc.set_flag(true);
 }
+#else
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi1){
 	HAL_GPIO_WritePin(SS_GPIO_Port, SS_Pin, GPIO_PIN_SET);
 	enc.set_flag(true);
 }
+#endif
 
 /* USER CODE END PFP */
 

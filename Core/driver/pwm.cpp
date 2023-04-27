@@ -5,7 +5,7 @@
  *      Author: yaa3k
  */
 
-#include "../driver/pwm.hpp"
+#include "pwm.hpp"
 
 bool PWM::out(float val){
 	if(val < -1 || 1 < val){

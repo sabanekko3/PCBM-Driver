@@ -10,6 +10,7 @@
 
 #include "board_data.hpp"
 
+
 class sin_table{
 private:
 	float table[TABLE_SIZE];

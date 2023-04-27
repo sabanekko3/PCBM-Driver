@@ -4,7 +4,7 @@
  *  Created on: Mar 27, 2023
  *      Author: yaa3k
  */
-#include "../driver/driver.hpp"
+#include "driver.hpp"
 
 DRIVER::DRIVER(PWM &_pwm_u,PWM &_pwm_v,PWM &_pwm_w,sin_table &_table)
 	: pwm_u(_pwm_u),pwm_v(_pwm_v),pwm_w(_pwm_w),table(_table){
@@ -32,6 +32,3 @@ void DRIVER::pwms_stop(void){
 	pwm_v.stop();
 	pwm_w.stop();
 }
-
-
-

@@ -77,7 +77,7 @@ void AS5048::read_start(void){
 
 bool AS5048::get_angle(uint16_t *angle){
 	*angle = (enc_val[0]<<8)|enc_val[1];
-	*angle = (*angle-enc_init_val)&0xFFF;
+	*angle = (*angle-enc_init_val)&0x3FFF;
 	if(data_new){
 		data_new = false;
 		return true;
