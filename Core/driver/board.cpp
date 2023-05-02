@@ -15,14 +15,19 @@ void BOARD::init(void){
 	HAL_Delay(100);
 
 	adc.init();
+	uint16_t _enc = 0;
 
-	for(float i = 0; i < 0.5;i +=0.01){
-		driver.out(0, i);
-		HAL_Delay(5);
+	for(int i = 0; i<8;i++){
+		for(int j = 0; j < 0x3FF;j+=8){
+			driver.out(j, 0.3);
+			HAL_Delay(1);
+		}
+		driver.out(0, 0.3);
+		HAL_Delay(200);
+		_enc += enc.read_raw()&0x3FF;
 	}
-	driver.out(0, 0.5);
-	HAL_Delay(1000);
-	enc.init();
+
+	enc.set_origin(_enc/8);
 	driver.out(0, 0);
 }
 
@@ -35,15 +40,15 @@ void BOARD::loop(void){
 	adc.dma_set();
 #endif
 	C += F;
-	printf("%d,%d,%d\r\n",angle_e_pwm,angle_e_real,angle_e_pwm-angle_e_real);
+	//printf("%d,%d,%d\r\n",angle_e_pwm,angle_e_real,angle_e_pwm-angle_e_real);
 
 	//printf("%d,%d,%d\r\n",(angle_e_pwm-angle_e_real)&0x3FF,angle_e_real,enc.enc_init_val);
-	//printf("%4.1f,%4.1f,%4.1f,%4.1f,%4.1f,%d,%d\r\n", phase_i.u, phase_i.v,phase_i.w, dq_i.d, dq_i.q,angle_e_real,(angle_e_pwm)&0x3FF);
+	printf("%4.1f,%4.1f,%4.1f,%4.1f,%4.1f,%d,%d\r\n", phase_i.u, phase_i.v,phase_i.w, dq_i.d, dq_i.q,angle_e_real,(angle_e_pwm)&0x3FF);
 	//printf("%d,%d,%d\r\n",adc.adc_dma[(int)ADC_data::U_I],adc.adc_dma[(int)ADC_data::W_I],adc.adc_dma[(int)ADC_data::SERVO]);
 	HAL_Delay(1);
 }
 
-PID pid(0.1,0.1,0);
+//PID pid(0.1,0.1,0);
 void BOARD::inthandle(void){
 	adc.dma_stop();
 
@@ -57,12 +62,12 @@ void BOARD::inthandle(void){
 //#define VECTOR
 #ifndef VECTOR
 	if(servo < 10){
-		driver.out(0,0.1);
+		driver.out(0,0);
 		F = 0;
 		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
 	}else{
 		F = 0.05;
-		angle_e_pwm = (angle_e_real+256)&0x3FF;
+		angle_e_pwm = (angle_e_real-0xFF)&0x3FF;
 		float power = servo*0.0001 + 0.1;
 		driver.out(angle_e_pwm,power);
 		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);

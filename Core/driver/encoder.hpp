@@ -52,6 +52,8 @@ public:
 
 	void reset_position(void);
 	void init(void);
+	void set_origin(uint16_t origin);
+	uint16_t read_raw(void);
 	void read_start(void);
 	bool get_angle(uint16_t *angle);
 
