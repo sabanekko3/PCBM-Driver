@@ -50,8 +50,8 @@ bool AS5600::get_angle(uint16_t *angle){
 void AS5048::reset_position(void){
 	read_start();
 	uint16_t enc = 0;
-	HAL_Delay(100);
 	while(!get_angle(&enc));
+	HAL_Delay(500);
 	enc_init_val = enc;
 }
 
@@ -63,21 +63,20 @@ void AS5048::init(void){
 void AS5048::read_start(void){
 	data_new = false;
 	uint8_t tx[2]={0xFF,0xFF};
-	memset(enc_val,0,2);
 #ifdef SPI_DMA
 	HAL_GPIO_WritePin(ss_port, ss_pin, GPIO_PIN_RESET);
 	 HAL_SPI_TransmitReceive_DMA(spi, tx, enc_val,2);
 #else
-	 HAL_GPIO_WritePin(ss_port, ss_pin, GPIO_PIN_RESET);
-	 HAL_SPI_TransmitReceive(spi, tx, enc_val,2,100);
-	 HAL_GPIO_WritePin(ss_port, ss_pin, GPIO_PIN_SET);
+	 HAL_GPIO_WritePin(SS_GPIO_Port, SS_Pin, GPIO_PIN_RESET);
+	 HAL_SPI_TransmitReceive(spi,tx, enc_val,2,1000);
+	 HAL_GPIO_WritePin(SS_GPIO_Port, SS_Pin, GPIO_PIN_SET);
 	 data_new = true;
 #endif
 }
 
 bool AS5048::get_angle(uint16_t *angle){
-	*angle = (enc_val[0]<<8)|enc_val[1];
-	*angle = (*angle-enc_init_val)&0x3FFF;
+	*angle = ((enc_val[0]<<8) | (enc_val[1]))&0x3FFF;
+	*angle = -(*angle - enc_init_val)&0x3FFF;
 	if(data_new){
 		data_new = false;
 		return true;

@@ -19,6 +19,9 @@ public:
 	float *get(uint16_t angle){
 		return &(table[angle & 0x3FF]);
 	}
+	float *get_cos(uint16_t angle){
+		return &(table[(angle+256) & 0x3FF]);
+	}
 };
 
 
@@ -26,6 +29,7 @@ class motor_math{
 private:
 	sin_table &table;
 	float sqrt3 = sqrt(3.0);
+	float sqrt3inv = 1/sqrt(3.0);
 public:
 	motor_math(sin_table &_table):table(_table){}
 	void dq_from_uvw(uvw_t input,uint16_t deg_e,dq_t *out);

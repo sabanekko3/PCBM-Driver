@@ -11,7 +11,7 @@ bool PWM::out(float val){
 	if(val < -1 || 1 < val){
 		return false;
 	}
-	val = val/2 + 0.5;
+	val = val*0.5 + 0.5;
 	__HAL_TIM_SET_COMPARE(tim, ch, val*tim_period);
 	return true;
 }

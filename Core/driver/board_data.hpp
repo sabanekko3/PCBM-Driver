@@ -19,10 +19,10 @@
 
 #include "../inc/main.h"
 
-#define USE_CMSIS
+//#define USE_CMSIS
 #define TIM3_INT
 #define I2C_DMA
-#define SPI_DMA
+//#define SPI_DMA
 //#define ENC_AS5600
 
 enum class ADC_data{
@@ -45,7 +45,7 @@ enum class PHASE{
 };
 
 
-#define TABLE_SIZE 1024
+#define TABLE_SIZE 1048
 #define COSP 256
 #define V_PHASE 341
 #define W_PHASE 683

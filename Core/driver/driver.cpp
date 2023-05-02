@@ -11,14 +11,14 @@ DRIVER::DRIVER(PWM &_pwm_u,PWM &_pwm_v,PWM &_pwm_w,sin_table &_table)
 }
 
 void DRIVER::out(uint16_t degree,float power){
-	pwm_u.out(power*(*table.get(degree)));
-	pwm_v.out(power*(*table.get(degree+V_PHASE)));
-	pwm_w.out(power*(*table.get(degree+W_PHASE)));
+	pwm_u.out(power*(*table.get_cos(degree)));
+	pwm_v.out(power*(*table.get_cos(degree+V_PHASE)));
+	pwm_w.out(power*(*table.get_cos(degree+W_PHASE)));
 }
-void DRIVER::out(float u,float v,float w){
-	pwm_u.out(u);
-	pwm_v.out(v);
-	pwm_w.out(w);
+void DRIVER::out(uvw_t uvw){
+	pwm_u.out(uvw.u);
+	pwm_v.out(uvw.v);
+	pwm_w.out(uvw.w);
 }
 
 

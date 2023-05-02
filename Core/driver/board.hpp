@@ -22,12 +22,15 @@ private:
 	motor_math &math;
 	AS5048 &enc;
 
+	uint16_t angle_real;
 	uint16_t angle_e_real;
 	uint16_t angle_e_pwm;
 
 	ADC &adc;
 
-	dq_t dq_val;
+	dq_t dq_i;
+	dq_t dq_v;
+	uvw_t phase_v;
 	uvw_t phase_i;
 	uint16_t servo;
 
