@@ -14,14 +14,14 @@
 
 class DRIVER{
 private:
-	sincos_table& table;
+	sin_table& table;
 	PWM& pwm_u;
 	PWM& pwm_v;
 	PWM& pwm_w;
 public:
-	DRIVER(PWM &_pwm_u,PWM &_pwm_v,PWM &_pwm_w,sincos_table &_table);
+	DRIVER(PWM &_pwm_u,PWM &_pwm_v,PWM &_pwm_w,sin_table &_table);
 	void out(uint16_t degree,float power);
-	void out(float u,float v,float w);
+	void out(uvw_t uvw);
 
 	void pwms_start(void);
 	void pwms_stop(void);

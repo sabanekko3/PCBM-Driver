@@ -76,6 +76,8 @@ void Error_Handler(void);
 #define SERVO_GPIO_Port GPIOA
 #define LED_Pin GPIO_PIN_11
 #define LED_GPIO_Port GPIOA
+#define SS_Pin GPIO_PIN_15
+#define SS_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

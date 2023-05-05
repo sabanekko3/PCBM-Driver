@@ -20,24 +20,30 @@ class BOARD{
 private:
 	DRIVER &driver;
 	motor_math &math;
-	AS5600 &enc;
+	AS5048 &enc;
 
+	uint16_t angle_real;
 	uint16_t angle_e_real;
 	uint16_t angle_e_pwm;
 
 	ADC &adc;
 
-	dq_t dq_val;
+	dq_t dq_i;
+	dq_t dq_v;
+	uvw_t phase_v;
 	uvw_t phase_i;
+
+	dq_t target_dq;
 	uint16_t servo;
 
 public:
-	BOARD(DRIVER &_driver,ADC &_adc,motor_math &_math,AS5600 &_enc)
+	BOARD(DRIVER &_driver,ADC &_adc,motor_math &_math,AS5048 &_enc)
 		:driver(_driver),adc(_adc),math(_math),enc(_enc){}
 	void init(void);
 	void loop(void);
 	void inthandle(void);
 };
+
 
 
 

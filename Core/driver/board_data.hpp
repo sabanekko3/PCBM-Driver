@@ -22,6 +22,8 @@
 #define USE_CMSIS
 #define TIM3_INT
 #define I2C_DMA
+//#define SPI_DMA
+//#define ENC_AS5600
 
 enum class ADC_data{
 	//adc1
@@ -42,9 +44,11 @@ enum class PHASE{
 	W
 };
 
-#define TABLE_SIZE 256
-#define V_PHASE 85
-#define W_PHASE 171
+
+#define TABLE_SIZE 1048
+#define COSP 256
+#define V_PHASE 341
+#define W_PHASE 683
 
 typedef struct dq{
 	float d;
@@ -54,17 +58,10 @@ typedef struct ab{
 	float a;
 	float b;
 }ab_t;
-
-typedef struct sincos{
-	float sin_val;
-	float cos_val;
-}sincos_t;
-
 typedef struct uvw{
 	float u;
 	float v;
 	float w;
 }uvw_t;
-
 
 #endif /* DRIVER_BOARD_DATA_HPP_ */
