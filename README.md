@@ -1,4 +1,3 @@
 # PCBM-Driver
 pcbモーター用のドライバソフト  
-
-回路図は[これ](pcb_motor_dirver.pdf)
+基板は[こちら](https://github.com/sabanekko3/PCBM-Driver)
