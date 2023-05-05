@@ -19,7 +19,7 @@
 
 #include "../inc/main.h"
 
-//#define USE_CMSIS
+#define USE_CMSIS
 #define TIM3_INT
 #define I2C_DMA
 //#define SPI_DMA

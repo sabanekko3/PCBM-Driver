@@ -25,7 +25,6 @@ void motor_math::dq_from_uvw(uvw_t input,uint16_t deg_e,dq_t *out){
 	//clarke
 	ab_t ab_data;
 	arm_clarke_f32(input.u,input.v,&ab_data.a,&ab_data.b);
-
 	//park
 	arm_park_f32(ab_data.a,ab_data.b,&(out->d),&(out->q),*sin,*cos);
 }

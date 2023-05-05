@@ -32,6 +32,8 @@ private:
 	dq_t dq_v;
 	uvw_t phase_v;
 	uvw_t phase_i;
+
+	dq_t target_dq;
 	uint16_t servo;
 
 public:
