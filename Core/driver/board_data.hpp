@@ -21,6 +21,7 @@
 
 #define USE_CMSIS
 #define TIM3_INT
+#define TIM3_FRQ 10000
 //#define SPI_DMA
 
 enum class ADC_data{

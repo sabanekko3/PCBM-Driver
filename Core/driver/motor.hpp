@@ -36,12 +36,20 @@ private:
 	dq_t target_dq;
 	uint16_t servo;
 
+	float rotor_rad; //rad
+	float rotor_speed;    //rad/s
 public:
 	MOTOR(DRIVER &_driver,ADC &_adc,motor_math &_math,AS5048 &_enc)
 		:driver(_driver),adc(_adc),math(_math),enc(_enc){}
 	void init(void);
 
 	void set_torque(float qi);
+	float get_positon_rad(void){
+		return rotor_rad;
+	}
+	float get_speed_rad(void){
+		return rotor_speed;
+	}
 
 	void print_debug(void);
 	void control(void);

@@ -8,7 +8,7 @@
 #include "pwm.hpp"
 
 bool PWM::out(float val){
-	if(val < -1 || 1 < val){
+	if(val < -0.9 || 0.9 < val){
 		return false;
 	}
 	val = val*0.5 + 0.5;
