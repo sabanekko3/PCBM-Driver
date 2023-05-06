@@ -5,7 +5,7 @@
  *      Author: yaa3k
  */
 
-#include "board.hpp"
+#include "motor.hpp"
 
 void MOTOR::init(void){
 	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
@@ -31,28 +31,22 @@ void MOTOR::init(void){
 	driver.out(0, 0);
 }
 
-void MOTOR::loop(void){
-#ifndef TIM3_INT
-	adc.dma_stop();
-	inthandle();
-	adc.dma_set();
-#endif
-	servo = adc.get_servo();
+void MOTOR::set_torque(float qi){
 	target_dq.d = 0;
-	target_dq.q = servo*0.0005;
+	target_dq.q = qi;
+}
 
+void MOTOR::print_debug(void){
 	//printf("%d,%d,%d\r\n",angle_e_pwm,angle_e_real,angle_e_pwm-angle_e_real);
-
 	//printf("%d,%d,%d\r\n",(angle_e_pwm-angle_e_real)&0x3FF,angle_e_real,enc.enc_init_val);
 	printf("%4.2f,%4.2f,%4.2f,%4.2f,%4.2f,%d,%d\r\n", phase_i.u, phase_i.v,phase_i.w, dq_i.d, dq_i.q,angle_e_real,(angle_e_pwm)&0x3FF);
 	//printf("%d,%d,%d\r\n",adc.adc_dma[(int)ADC_data::U_I],adc.adc_dma[(int)ADC_data::W_I],adc.adc_dma[(int)ADC_data::SERVO]);
-	HAL_Delay(1);
 }
 
 #define VECTOR
 PID pid_d(0.02,0.02,0);
 PID pid_q(0.02,0.02,0);
-void MOTOR::inthandle(void){
+void MOTOR::control(void){
 	adc.get_i_uvw(&phase_i);
 	enc.get_angle(&angle_real);
 	angle_e_real = (angle_real>>1) & 0x3ff;

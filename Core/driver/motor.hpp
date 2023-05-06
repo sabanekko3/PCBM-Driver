@@ -40,8 +40,11 @@ public:
 	MOTOR(DRIVER &_driver,ADC &_adc,motor_math &_math,AS5048 &_enc)
 		:driver(_driver),adc(_adc),math(_math),enc(_enc){}
 	void init(void);
-	void loop(void);
-	void inthandle(void);
+
+	void set_torque(float qi);
+
+	void print_debug(void);
+	void control(void);
 };
 
 

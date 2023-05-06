@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "../driver/board.hpp"
+#include "../driver/motor.hpp"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -89,7 +89,7 @@ MOTOR motor(driver,adc,mathlib,enc);
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if(htim == &htim3){
 #ifdef TIM3_INT
-		motor.inthandle();
+		motor.control();
 #endif
 	}
 }
@@ -153,7 +153,10 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  motor.loop();
+	  motor.set_torque(adc.get_servo()*0.0005);
+
+	  motor.print_debug();
+	  HAL_Delay(1);
   }
   /* USER CODE END 3 */
 }
