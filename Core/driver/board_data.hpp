@@ -21,9 +21,7 @@
 
 #define USE_CMSIS
 #define TIM3_INT
-#define I2C_DMA
 //#define SPI_DMA
-//#define ENC_AS5600
 
 enum class ADC_data{
 	//adc1
