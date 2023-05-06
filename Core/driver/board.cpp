@@ -7,7 +7,7 @@
 
 #include "board.hpp"
 
-void BOARD::init(void){
+void MOTOR::init(void){
 	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
 	driver.pwms_start();
 	driver.out(0, 0.0);
@@ -31,7 +31,7 @@ void BOARD::init(void){
 	driver.out(0, 0);
 }
 
-void BOARD::loop(void){
+void MOTOR::loop(void){
 #ifndef TIM3_INT
 	adc.dma_stop();
 	inthandle();
@@ -52,7 +52,7 @@ void BOARD::loop(void){
 #define VECTOR
 PID pid_d(0.02,0.02,0);
 PID pid_q(0.02,0.02,0);
-void BOARD::inthandle(void){
+void MOTOR::inthandle(void){
 	adc.get_i_uvw(&phase_i);
 	enc.get_angle(&angle_real);
 	angle_e_real = (angle_real>>1) & 0x3ff;

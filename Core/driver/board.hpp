@@ -16,7 +16,7 @@
 #include "encoder.hpp"
 #include "pid.hpp"
 
-class BOARD{
+class MOTOR{
 private:
 	DRIVER &driver;
 	motor_math &math;
@@ -37,7 +37,7 @@ private:
 	uint16_t servo;
 
 public:
-	BOARD(DRIVER &_driver,ADC &_adc,motor_math &_math,AS5048 &_enc)
+	MOTOR(DRIVER &_driver,ADC &_adc,motor_math &_math,AS5048 &_enc)
 		:driver(_driver),adc(_adc),math(_math),enc(_enc){}
 	void init(void);
 	void loop(void);

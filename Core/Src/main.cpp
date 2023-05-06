@@ -84,12 +84,12 @@ DRIVER driver(U, V, W, table);
 ADC adc(&hadc1,&hadc2,0.025,1);
 AS5048 enc(&hspi1,SS_GPIO_Port,SS_Pin);
 
-BOARD board(driver,adc,mathlib,enc);
+MOTOR motor(driver,adc,mathlib,enc);
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if(htim == &htim3){
 #ifdef TIM3_INT
-		board.inthandle();
+		motor.inthandle();
 #endif
 	}
 }
@@ -142,7 +142,7 @@ int main(void)
   MX_TIM3_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-  board.init();
+  motor.init();
   HAL_TIM_Base_Start_IT(&htim3);
   /* USER CODE END 2 */
 
@@ -153,7 +153,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  board.loop();
+	  motor.loop();
   }
   /* USER CODE END 3 */
 }
