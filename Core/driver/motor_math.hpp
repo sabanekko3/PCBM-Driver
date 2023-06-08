@@ -28,8 +28,10 @@ public:
 class motor_math{
 private:
 	sin_table &table;
+#ifndef USE_CMSIS
 	float sqrt3 = sqrt(3.0);
 	float sqrt3inv = 1/sqrt(3.0);
+#endif
 public:
 	motor_math(sin_table &_table):table(_table){}
 	void dq_from_uvw(uvw_t input,uint16_t deg_e,dq_t *out);
